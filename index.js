@@ -1,9 +1,9 @@
 const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
-const parse = require('csv-parse');
+const pages = require('./pages.js')
 
-pages.forEach(url => {
+pages.list.forEach(url => {
     scrape(url);
 });
 
@@ -22,12 +22,16 @@ function scrape(url) {
 
 function saveImage(url) {
 
-    const fileName = url.replace(/^.*[\\\/]/, '').replace('#keepProtocol', '')
-    const path = `./images/${fileName}`;
+    if (url != undefined) {
+        const fileName = url.replace(/^.*[\\\/]/, '').replace('#keepProtocol', '')
+        const path = `./images/${fileName}`;
+    
+        console.log(path);
+        console.log(fileName);
 
-    console.log(path);
-
-    request(url)
+        request(url)
         .pipe(fs.createWriteStream(path))
         .on('close', () => console.log("Done!"));
+    }
+
 }
