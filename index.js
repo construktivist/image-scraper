@@ -1,6 +1,11 @@
 const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
+const parse = require('csv-parse');
+
+pages.forEach(url => {
+    scrape(url);
+});
 
 function scrape(url) {
     
@@ -8,10 +13,21 @@ function scrape(url) {
         
         error ? console.log(error) : console.log('CHEERIO SUCCESS');
         const $ = cheerio.load(html);
-        const og_image = $('meta[property="og:image"]').attr('content');
-        console.log(og_image);
+        const og_image_url = $('meta[property="og:image"]').attr('content');
+        saveImage(og_image_url);
+
     
     });
 }
 
-scrape('https://www.kasasa.com/exchange/articles/seasonal-campaigns');
+function saveImage(url) {
+
+    const fileName = url.replace(/^.*[\\\/]/, '').replace('#keepProtocol', '')
+    const path = `./images/${fileName}`;
+
+    console.log(path);
+
+    request(url)
+        .pipe(fs.createWriteStream(path))
+        .on('close', () => console.log("Done!"));
+}
