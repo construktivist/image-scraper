@@ -1,4 +1,6 @@
 node_modules/
 package-lock.json
 images/
-pages.js
+blog_pages.js
+exchange_pages.js
+knation_pages.js

@@ -1,9 +1,11 @@
 const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
-const pages = require('./pages.js')
+const blog_pages = require('./blog_pages.js');
+const exchange_pages = require('./exchange_pages.js');
+const knation_pages = require('./knation_pages.js');
 
-pages.list.forEach(url => {
+knation_pages.list.forEach(url => {
     scrape(url);
 });
 
